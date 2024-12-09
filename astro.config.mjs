@@ -4,6 +4,9 @@ import react from '@astrojs/react';
 import icon from "astro-icon";
 
 export default defineConfig({
+  devOptions: {
+    port: 4321, // O cualquier otro puerto que prefieras
+  },
   integrations: [
     tailwind(),
     react(),

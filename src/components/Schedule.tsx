@@ -73,7 +73,7 @@ const getTimeColor = (status: ScheduleItem['status']) => {
 const getStatusBgColor = (status: ScheduleItem['status']) => {
   switch (status) {
     case 'upcoming':
-      return 'bg-blue-900';
+      return 'bg-sky-800';
     case 'in-progress':
       return 'bg-green-700'; // Static green background
     case 'ended':
