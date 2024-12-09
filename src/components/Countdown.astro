@@ -1,0 +1,48 @@
+---
+interface Props {
+  targetDate: string;
+}
+
+const { targetDate } = Astro.props;
+---
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+  <div class="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center border border-purple-500/20">
+    <div class="text-4xl md:text-5xl font-bold text-green-400" id="days">00</div>
+    <div class="text-purple-300 uppercase text-sm tracking-wider mt-2">Días</div>
+  </div>
+  <div class="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center border border-purple-500/20">
+    <div class="text-4xl md:text-5xl font-bold text-green-400" id="hours">00</div>
+    <div class="text-purple-300 uppercase text-sm tracking-wider mt-2">Horas</div>
+  </div>
+  <div class="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center border border-purple-500/20">
+    <div class="text-4xl md:text-5xl font-bold text-green-400" id="minutes">00</div>
+    <div class="text-purple-300 uppercase text-sm tracking-wider mt-2">Minutos</div>
+  </div>
+  <div class="bg-black/30 backdrop-blur-sm rounded-lg p-4 text-center border border-purple-500/20">
+    <div class="text-4xl md:text-5xl font-bold text-green-400" id="seconds">00</div>
+    <div class="text-purple-300 uppercase text-sm tracking-wider mt-2">Segundos</div>
+  </div>
+</div>
+
+<script define:vars={{ targetDate }}>
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const target = new Date(targetDate).getTime();
+    const difference = target - now;
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+

@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import Countdown from './Countdown.astro';
+---
+
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-green-900/50 mix-blend-multiply"></div>
+    <Image 
+      src="/hero-bg.jpg" 
+      alt="Spatial Computing Background" 
+      width={1920} 
+      height={1080} 
+      class="w-full h-full object-cover"
+    />
+  </div>
+  <div class="relative z-10 text-center">
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
+        HackReality 2024
+      </span>
+    </h1>
+    <p class="text-2xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
+      Explora el futuro del Spatial Computing
+    </p>
+    <div class="flex justify-center space-x-4 animate-fade-in-up animation-delay-400">
+      <a href="#" class="px-8 py-3 rounded-full bg-green-500 text-black font-bold hover:bg-green-400 transition-colors">
+        Participar
+      </a>
+      <a href="#" class="px-8 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors">
+        Más Información
+      </a>
+    </div>
+    <div class="mt-16 animate-fade-in-up animation-delay-600">
+      <Countdown targetDate="2024-12-31T00:00:00" />
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.6s ease-out forwards;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+
+  .animation-delay-600 {
+    animation-delay: 0.6s;
+  }
+</style>
+

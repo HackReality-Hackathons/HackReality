@@ -1,0 +1,22 @@
+---
+const stats = [
+  { number: '1000+', label: 'Participantes Esperados' },
+  { number: '48hrs', label: 'de Hackeo' },
+  { number: '€50K', label: 'en Premios' },
+  { number: '20+', label: 'Workshops' },
+];
+---
+
+<section id="stats" class="py-20 bg-black">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      {stats.map((stat) => (
+        <div class="space-y-2">
+          <h3 class="text-4xl font-bold text-green-400">{stat.number}</h3>
+          <p class="text-purple-300">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
