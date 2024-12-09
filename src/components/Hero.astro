@@ -16,25 +16,34 @@ import Countdown from './Countdown.astro';
   </div>
   
   <div class="relative z-10 text-center">
-    <div class="perspective-wrapper mb-12">
-      <img 
-        src="Logo/Recurso-2.webp" 
-        class="hoverImage max-w-60 md:w-1/2 mx-auto" 
-        alt="HackReality Logo"
-        id="hoverLogo"
-      />
+    <div class="perspective-wrapper mb-8">
+      <div class="relative inline-flex">
+        <div class="overflow-hidden">
+          <img 
+            src="Logo/Recurso-2.webp" 
+            class="hoverImage max-w-60 md:w-1/2 mx-auto object-contain" 
+            alt="HackReality Logo"
+            id="hoverLogo"
+            style="mask-image: url('Logo/Recurso-2.webp'); -webkit-mask-image: url('Logo/Recurso-2.webp');"
+          />
+          <div 
+            class="shine absolute inset-0 pointer-events-none" 
+            style="mask-image: url('Logo/Recurso-2.webp'); -webkit-mask-image: url('Logo/Recurso-2.webp');"
+          ></div>
+        </div>
+      </div>
     </div>
 
-    <h1 class="text-5xl md:text-7xl font-bold my-6 animate-fade-in-up">
+    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
       <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
         HackReality 2024
       </span>
     </h1>
-    
+
     <p class="text-2xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
       Explora el futuro del Spatial Computing
     </p>
-    
+
     <div class="flex justify-center space-x-4 animate-fade-in-up animation-delay-400">
       <a 
         href="https://hackreality-spatial-computing.devpost.com/" 
@@ -65,11 +74,37 @@ import Countdown from './Countdown.astro';
   }
 
   .hoverImage {
-    position: relative;
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
     cursor: pointer;
-    will-change: transform;
+    display: block;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
+
+  .shine {
+    opacity: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.3) 20%,
+      transparent 50%
+    );
+    transition: opacity 0.3s;
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-position: center;
+  }
+
+  .shine-active {
+    opacity: 1;
   }
 
   @keyframes fade-in-up {
@@ -102,47 +137,56 @@ import Countdown from './Countdown.astro';
 
 <script>
   const initHoverEffect = () => {
-    const imageElement = document.getElementById('hoverLogo');
+    const imageElement = document.getElementById('hoverLogo') as HTMLImageElement;
+    const wrapper = imageElement?.parentElement as HTMLDivElement;
+    const shineElement = wrapper?.querySelector('.shine') as HTMLDivElement;
     
-    if (!imageElement) return;
+    if (!imageElement || !shineElement || !wrapper) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      const rect = imageElement.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+    const handleMouseMove = (e: Event) => {
+      const mouseEvent = e as MouseEvent;
+      const rect = wrapper.getBoundingClientRect();
+      const x = mouseEvent.clientX - rect.left;
+      const y = mouseEvent.clientY - rect.top;
       
-      // Calcular la posición relativa del cursor
+      // Rotación 3D
       const dx = (x - rect.width / 2) / (rect.width / 2);
       const dy = (y - rect.height / 2) / (rect.height / 2);
       
-      // Aplicar la transformación
       imageElement.style.transform = `
         perspective(1000px) 
         rotateY(${dx * 25}deg) 
         rotateX(${-dy * 25}deg)
         scale3d(1.05, 1.05, 1.05)
       `;
+
+      // Actualizar posición del brillo
+      const moveX = (x / rect.width) * 100;
+      const moveY = (y / rect.height) * 100;
+      
+      shineElement.classList.add('shine-active');
+      shineElement.style.background = `radial-gradient(
+        circle at ${moveX}% ${moveY}%,
+        rgba(255, 255, 255, 0.8) 0%,
+        rgba(255, 255, 255, 0.3) 20%,
+        transparent 50%
+      )`;
     };
 
     const handleMouseLeave = () => {
-      imageElement.style.transform = `
-        perspective(1000px)
-        rotateY(0deg)
-        rotateX(0deg)
-        scale3d(1, 1, 1)
-      `;
+      imageElement.style.transform = 'none';
+      shineElement.classList.remove('shine-active');
     };
 
-    imageElement.addEventListener('mousemove', handleMouseMove);
-    imageElement.addEventListener('mouseleave', handleMouseLeave);
+    wrapper.addEventListener('mousemove', handleMouseMove as EventListener);
+    wrapper.addEventListener('mouseleave', handleMouseLeave);
 
-    // Cleanup function
+    // Cleanup
     return () => {
-      imageElement.removeEventListener('mousemove', handleMouseMove);
-      imageElement.removeEventListener('mouseleave', handleMouseLeave);
+      wrapper.removeEventListener('mousemove', handleMouseMove as EventListener);
+      wrapper.removeEventListener('mouseleave', handleMouseLeave);
     };
   };
 
-  // Initialize the effect when the DOM is ready
   document.addEventListener('DOMContentLoaded', initHoverEffect);
 </script>
