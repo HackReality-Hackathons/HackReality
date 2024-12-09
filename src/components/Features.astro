@@ -1,45 +1,164 @@
 ---
 import { Icon } from 'astro-icon/components';
+
 const features = [
- {
+{
    icon: 'mdi:virtual-reality',
    title: 'Spatial Computing',
-   description: 'Explora las posibilidades infinitas de la computación espacial y la realidad mixta.',
-   iconColor: 'text-red-400' // Color cyan para VR
- },
- {
+   shortDescription: 'Explora el futuro con Spatial Computing y desarrolla experiencias inmersivas.',
+   description: 'Explora el futuro con el Spatial Computing, una tecnología que combina el mundo digital con el físico. Aprende a desarrollar experiencias inmersivas que cambiarán cómo interactuamos con nuestro entorno',
+   iconColor: 'text-red-400',
+   extraInfo: 'El Spatial Computing es una tecnología revolucionaria que permite crear experiencias digitales que se integran perfectamente con nuestro mundo físico. En este hackathon, aprenderás a utilizar herramientas de última generación para desarrollar aplicaciones que aprovechan la realidad mixta, tracking espacial y más.'
+},
+{
    icon: 'mdi:brain',
-   title: 'IA Avanzada',
-   description: 'Integra inteligencia artificial de vanguardia en tus proyectos espaciales.',
-   iconColor: 'text-orange-400' // Color morado para IA
- },
- {
+   title: 'Participación Online',
+   shortDescription: 'Participa desde donde estés - formato presencial u online disponible.',
+   description: 'No importa dónde estés, ¡tienes opciones! Regístrate de manera online a través de nuestro link en <a href="TU_URL_AQUI" target="_blank">Devpost</a> y mantente informado con nuestro servidor de Discord. Si eres parte de 42, también puedes participar presencialmente, ¡nos encantaría verte allí!',
+   iconColor: 'text-orange-400',
+   extraInfo: 'La modalidad online te permite participar desde cualquier lugar del mundo. Tendrás acceso a todas las charlas, workshops y mentorías a través de nuestra plataforma virtual. Además, nuestro servidor de Discord estará activo 24/7 para que puedas conectar con otros participantes y mentores.'
+},
+{
    icon: 'mdi:hand-front-right',
-   title: 'Interacción Natural',
-   description: 'Desarrolla interfaces intuitivas utilizando gestos, voz y seguimiento ocular.',
-   iconColor: 'text-teal-400' // Color naranja para interacción
- },
- {
+   title: 'Premios y Mentoría',
+   shortDescription: 'Gana increíbles premios y recibe mentoría de expertos del sector tech.',
+   description: 'Recibe grandes premios diseñados para impulsar tu carrera. Desde unas Oculus 3S y Raspberry kits hasta una visita grupal a Google Málaga y sesiones de mentorización privada de trabajadores de empresas como Meta, Google y Crossmint',
+   iconColor: 'text-teal-400',
+   extraInfo: 'Los premios han sido cuidadosamente seleccionados para impulsar tu carrera en tech. Las Oculus 3S te permitirán seguir desarrollando proyectos de VR/AR, mientras que los Raspberry kits son perfectos para proyectos de IoT. La visita a Google Málaga incluye networking con ingenieros y la posibilidad de ver cómo trabaja uno de los gigantes tech.'
+},
+{
    icon: 'mdi:account-group',
-   title: 'Colaboración en Tiempo Real',
-   description: 'Crea experiencias multiusuario en entornos virtuales compartidos.',
-   iconColor: 'text-rose-400' // Color azul para colaboración
- }
+   title: 'Jueces Expertos',
+   shortDescription: 'Ambiente inclusivo con jueces expertos y una comunidad acogedora.',
+   description: 'Queremos que todos se sientan bienvenidos, desde principiantes hasta expertos. Contamos con un panel de jueces reconocidos y un ambiente inclusivo para que te sientas cómodo aprendiendo y colaborando. Además, comida incluida, porque sabemos que el hambre no es buen compañero de la creatividad',
+   iconColor: 'text-rose-400',
+   extraInfo: 'Nuestro panel de jueces incluye profesionales de empresas líderes en el sector tecnológico. Evaluarán los proyectos basándose en criterios como innovación, viabilidad técnica e impacto social. La comunidad está formada por desarrolladores de todos los niveles, diseñadores y entusiastas de la tecnología, creando un ambiente perfecto para aprender y crecer juntos.'
+}
 ];
 ---
+
 <section id="features" class="py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
   <div class="container mx-auto px-4">
     <h2 class="text-4xl font-bold text-center mb-12 text-green-400">
       Características del Hackathon
     </h2>
-    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-      {features.map((feature) => (
-        <div class="bg-black/50 backdrop-blur-sm rounded-xl p-6  transition-all hover:transform hover:scale-105">
-          <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor} mb-4`} />
-          <h3 class="text-xl font-semibold mb-2 text-purple-200">{feature.title}</h3>
-          <p class="text-gray-400">{feature.description}</p>
+    <div class="grid grid-cols-4 gap-8">
+      {features.map((feature, index) => (
+        <div class="relative">
+          <button 
+            class="w-full text-left bg-black/50 backdrop-blur-sm rounded-xl p-8 transition-all hover:transform hover:scale-105 cursor-pointer h-[220px]"
+            data-modal={`modal-${index}`}
+          >
+            <div class="flex items-center gap-4 mb-6">
+              <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor}`} />
+              <h3 class="text-xl font-semibold text-purple-200 leading-tight">{feature.title}</h3>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed">{feature.shortDescription}</p>
+          </button>
+
+          <dialog 
+            id={`modal-${index}`} 
+            class="modal backdrop:bg-black/80 bg-black text-white p-8 rounded-xl max-w-2xl mx-auto"
+          >
+            <div class="modal-content">
+              <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                  <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor}`} />
+                  <h3 class="text-2xl font-bold text-purple-200">{feature.title}</h3>
+                </div>
+                <button 
+                  class="close-modal text-gray-400 hover:text-white"
+                  data-modal={`modal-${index}`}
+                >
+                  <Icon name="mdi:close" class="w-6 h-6" />
+                </button>
+              </div>
+              <div class="space-y-4">
+                <p class="text-gray-300" set:html={feature.description}></p>
+                <p class="text-gray-300">{feature.extraInfo}</p>
+              </div>
+            </div>
+          </dialog>
         </div>
       ))}
     </div>
   </div>
 </section>
+
+<style>
+ dialog::backdrop {
+   background: rgba(0, 0, 0, 0.5);
+ }
+ 
+ dialog {
+   border: none;
+   margin: auto;
+ }
+ 
+ .modal {
+   animation: modal-open 0.3s ease-out;
+ }
+ 
+ @keyframes modal-open {
+   from {
+     opacity: 0;
+     transform: scale(0.95);
+   }
+   to {
+     opacity: 1;
+     transform: scale(1);
+   }
+ }
+</style>
+
+<script>
+ // Abrir modal
+ document.querySelectorAll('button[data-modal]').forEach(button => {
+   button.addEventListener('click', () => {
+     const modalId = button.getAttribute('data-modal');
+     if (modalId) {
+       const modal = document.getElementById(modalId);
+       if (modal instanceof HTMLDialogElement) {
+         modal.showModal();
+       }
+     }
+   });
+ });
+
+ // Cerrar modal
+ document.querySelectorAll('.close-modal').forEach(button => {
+   button.addEventListener('click', () => {
+     const modalId = button.getAttribute('data-modal');
+     if (modalId) {
+       const modal = document.getElementById(modalId);
+       if (modal instanceof HTMLDialogElement) {
+         modal.close();
+       }
+     }
+   });
+ });
+
+ // Cerrar al hacer clic fuera
+ document.querySelectorAll('dialog').forEach(dialog => {
+   dialog.addEventListener('click', (e) => {
+     if (dialog instanceof HTMLDialogElement) {
+       const dialogDimensions = dialog.getBoundingClientRect();
+       if (
+         e.clientX < dialogDimensions.left ||
+         e.clientX > dialogDimensions.right ||
+         e.clientY < dialogDimensions.top ||
+         e.clientY > dialogDimensions.bottom
+       ) {
+         dialog.close();
+       }
+     }
+   });
+ });
+
+ // Prevenir cierre al hacer clic dentro
+ document.querySelectorAll('.modal-content').forEach(content => {
+   content.addEventListener('click', (e) => {
+     e.stopPropagation();
+   });
+ });
+</script>
