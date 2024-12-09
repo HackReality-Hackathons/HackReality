@@ -4,17 +4,18 @@ import Countdown from './Countdown.astro';
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-green-900/50 mix-blend-multiply"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-purple-900/50 to-black/50 mix-blend-multiply"></div>
   </div>
 
-  <div class="relative z-10 text-center mt-8">
-    <div class="flex justify-center items-center mb-10">
-      <img 
-        src="Logo/Recurso-2.webp" 
-        class="max-w-40 md:w-1/2 mx-auto hover-3d" 
-        alt="HackReality Logo"
-        id="hoverLogo"
-      />
+  <div class="relative z-10 text-center">
+    <div class="flex justify-center items-center mb-4">
+        <img 
+          src="Logo/1.png" 
+          class="max-w-40 md:w-1/2 mx-auto hover-3d" 
+          alt="HackReality Logo"
+          id="hoverLogo"
+          loading="lazy"
+        />
     </div>
 
     <h1 class="text-4xl md:text-6xl font-bold mb-6 mt-10 animate-fade-in-up">
@@ -24,7 +25,7 @@ import Countdown from './Countdown.astro';
     </h1>
 
     <p class="text-xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
-      Explora el futuro del Spatial Computing
+      ¡Conecta, Colabora, Crea: Hackea tu potencial!
     </p>
 
     <div class="flex justify-center space-x-4 animate-fade-in-up animation-delay-400">
@@ -51,11 +52,14 @@ import Countdown from './Countdown.astro';
 
 <style>
   .hover-3d {
+    transform: scale(4);
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
     backface-visibility: hidden;
     transform: perspective(1000px);
     cursor: pointer;
+    will-change: transform;
+    -webkit-font-smoothing: subpixel-antialiased;
   }
 
   @keyframes fade-in-up {
@@ -137,6 +141,7 @@ import Countdown from './Countdown.astro';
     // Evento de movimiento en el documento para seguir el mouse
     document.addEventListener('mousemove', handleMouseMove);
 
+    // Limpieza de eventos
     return () => {
       imageElement.removeEventListener('mouseenter', handleMouseEnter);
       imageElement.removeEventListener('mouseleave', handleMouseLeave);
@@ -144,5 +149,6 @@ import Countdown from './Countdown.astro';
     };
   };
 
+  // Inicializar efecto cuando el DOM esté listo
   document.addEventListener('DOMContentLoaded', initHoverEffect);
 </script>

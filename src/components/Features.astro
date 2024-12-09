@@ -25,15 +25,15 @@ const features = [
 ];
 ---
 
-<section id="features" class="py-20 bg-gradient-to-b from-black to-purple-900">
+<section id="features" class="py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
   <div class="container mx-auto px-4">
-    <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-purple-500">
+    <h2 class="text-4xl font-bold text-center mb-12 text-green-400">
       Características del Hackathon
     </h2>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       {features.map((feature) => (
         <div class="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
-          <Icon name={feature.icon} class="w-12 h-12 text-green-400 mb-4" />
+          <Icon name={feature.icon} class="w-12 h-12 text-purple-400 mb-4" />
           <h3 class="text-xl font-semibold mb-2 text-purple-200">{feature.title}</h3>
           <p class="text-gray-400">{feature.description}</p>
         </div>
