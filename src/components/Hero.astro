@@ -1,46 +1,36 @@
 ---
-import { Image } from 'astro:assets';
 import Countdown from './Countdown.astro';
 ---
 
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-green-900/50 mix-blend-multiply"></div>
-    <Image
-      src="/hero-bg.jpg"
-      alt="Spatial Computing Background"
-      width={1920}
-      height={1080}
-      class="w-full h-full object-cover"
-    />
   </div>
-  
-  <div class="relative z-10 text-center">
-    <div class="perspective-wrapper mb-8">
-      <div class="relative inline-flex">
-        <div class="overflow-hidden">
-          <img 
-            src="Logo/Recurso-2.webp" 
-            class="hoverImage max-w-60 md:w-1/2 mx-auto object-contain" 
-            alt="HackReality Logo"
-            id="hoverLogo"
-            style="mask-image: url('Logo/Recurso-2.webp'); -webkit-mask-image: url('Logo/Recurso-2.webp');"
-          />
-          <div 
-            class="shine absolute inset-0 pointer-events-none" 
-            style="mask-image: url('Logo/Recurso-2.webp'); -webkit-mask-image: url('Logo/Recurso-2.webp');"
-          ></div>
+
+  <div class="relative z-10 text-center mt-8">
+    <div class="perspective-wrapper mb-10">
+      <div class="relative inline-flex w-fit h-fit">
+        <div class="overflow-hidden w-fit h-fit">
+          <div class="transform-container">
+            <img 
+              src="Logo/Recurso-2.webp" 
+              class="hoverImage max-w-40 md:w-1/2 mx-auto object-contain relative z-10" 
+              alt="HackReality Logo"
+              id="hoverLogo"
+            />
+            <div class="shine absolute inset-0 pointer-events-none z-20"></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 mt-10 animate-fade-in-up">
       <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
         HackReality 2024
       </span>
     </h1>
 
-    <p class="text-2xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
+    <p class="text-xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
       Explora el futuro del Spatial Computing
     </p>
 
@@ -70,20 +60,23 @@ import Countdown from './Countdown.astro';
   .perspective-wrapper {
     perspective: 1000px;
     width: fit-content;
+    height: fit-content;
     margin: 0 auto;
   }
 
-  .hoverImage {
+  .transform-container {
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
+    position: relative;
+  }
+
+  .hoverImage {
     cursor: pointer;
     display: block;
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
 
   .shine {
@@ -95,12 +88,8 @@ import Countdown from './Countdown.astro';
       transparent 50%
     );
     transition: opacity 0.3s;
-    mask-size: contain;
-    -webkit-mask-size: contain;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-    mask-position: center;
-    -webkit-mask-position: center;
+    pointer-events: none;
+    mix-blend-mode: overlay;
   }
 
   .shine-active {
@@ -138,10 +127,25 @@ import Countdown from './Countdown.astro';
 <script>
   const initHoverEffect = () => {
     const imageElement = document.getElementById('hoverLogo') as HTMLImageElement;
-    const wrapper = imageElement?.parentElement as HTMLDivElement;
+    const wrapper = imageElement?.closest('.transform-container') as HTMLDivElement;
     const shineElement = wrapper?.querySelector('.shine') as HTMLDivElement;
     
     if (!imageElement || !shineElement || !wrapper) return;
+
+    // Set initial dimensions of wrapper based on image
+    const setWrapperDimensions = () => {
+      const { width, height } = imageElement.getBoundingClientRect();
+      wrapper.style.width = `${width}px`;
+      wrapper.style.height = `${height}px`;
+      shineElement.style.width = `${width}px`;
+      shineElement.style.height = `${height}px`;
+    };
+
+    // Set initial dimensions
+    setWrapperDimensions();
+
+    // Update dimensions on window resize
+    window.addEventListener('resize', setWrapperDimensions);
 
     const handleMouseMove = (e: Event) => {
       const mouseEvent = e as MouseEvent;
@@ -149,18 +153,15 @@ import Countdown from './Countdown.astro';
       const x = mouseEvent.clientX - rect.left;
       const y = mouseEvent.clientY - rect.top;
       
-      // Rotación 3D
       const dx = (x - rect.width / 2) / (rect.width / 2);
       const dy = (y - rect.height / 2) / (rect.height / 2);
       
-      imageElement.style.transform = `
-        perspective(1000px) 
+      wrapper.style.transform = `
         rotateY(${dx * 25}deg) 
         rotateX(${-dy * 25}deg)
         scale3d(1.05, 1.05, 1.05)
       `;
 
-      // Actualizar posición del brillo
       const moveX = (x / rect.width) * 100;
       const moveY = (y / rect.height) * 100;
       
@@ -174,17 +175,18 @@ import Countdown from './Countdown.astro';
     };
 
     const handleMouseLeave = () => {
-      imageElement.style.transform = 'none';
+      wrapper.style.transform = 'none';
       shineElement.classList.remove('shine-active');
     };
 
-    wrapper.addEventListener('mousemove', handleMouseMove as EventListener);
-    wrapper.addEventListener('mouseleave', handleMouseLeave);
+    wrapper.parentElement?.addEventListener('mousemove', handleMouseMove as EventListener);
+    wrapper.parentElement?.addEventListener('mouseleave', handleMouseLeave);
 
     // Cleanup
     return () => {
-      wrapper.removeEventListener('mousemove', handleMouseMove as EventListener);
-      wrapper.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('resize', setWrapperDimensions);
+      wrapper.parentElement?.removeEventListener('mousemove', handleMouseMove as EventListener);
+      wrapper.parentElement?.removeEventListener('mouseleave', handleMouseLeave);
     };
   };
 

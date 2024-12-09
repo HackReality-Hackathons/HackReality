@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 ---
 
-<nav class="fixed w-full z-50 py-1 bg-black/50 backdrop-blur-lg border-b border-purple-500/20">
+<nav class="fixed w-full z-50 py-1 bg-black/45 backdrop-blur-lg border-b border-purple-500/20">
   <div class="container mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <a href="/" class="flex items-center space-x-2">
@@ -13,10 +13,10 @@ import { Image } from 'astro:assets';
         </span>
       </a>
       <div class="hidden md:flex space-x-8">
-        <a href="#about" class="text-gray-300 hover:text-white transition-colors">Sobre</a>
-        <a href="#features" class="text-gray-300 hover:text-white transition-colors">Características</a>
-        <a href="#stats" class="text-gray-300 hover:text-white transition-colors">Estadísticas</a>
-        <a href="#partners" class="text-gray-300 hover:text-white transition-colors">Socios</a>
+        <a href="#about" id="section" class="text-gray-300 font-semibold hover:text-white transition-colors">Sobre</a>
+        <a href="#features" id="section" class="text-gray-300 font-semibold hover:text-white transition-colors">Características</a>
+        <a href="#stats" id="section" class="text-gray-300 font-semibold hover:text-white transition-colors">Estadísticas</a>
+        <a href="#partners" id="section" class="text-gray-300 font-semibold hover:text-white transition-colors">Socios</a>
       </div>
       <div class="flex items-center space-x-4">
         <a href="#" class="px-4 py-2 rounded-md bg-purple-600 text-white hover:bg-purple-700 transition-colors">
@@ -27,6 +27,9 @@ import { Image } from 'astro:assets';
   </div>
 </nav>
 <style>
+  #section {
+  font-family: "Bricolage Grotesque", sans-serif;
+ }
 .hoverImage {
   position: relative;
   align-self: stretch;
