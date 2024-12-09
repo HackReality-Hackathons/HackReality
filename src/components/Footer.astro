@@ -23,7 +23,7 @@ import { Icon } from 'astro-icon/components';
       </div>
       <div class="w-full md:w-1/3">
         <h3 class="text-lg font-semibold mb-4 text-purple-300">Síguenos</h3>
-        <div class="flex space-x-4">
+        <div class="flex justify-center space-x-4"> <!-- Añadido justify-center -->
           <a href="#" class="text-gray-400 hover:text-white transition-colors">
             <Icon name="mdi:twitter" class="w-6 h-6" />
           </a>
@@ -40,7 +40,12 @@ import { Icon } from 'astro-icon/components';
       </div>
     </div>
     <div class="mt-8 pt-8 mx-[-4rem] border-t border-purple-500/20 text-center text-gray-400">
-      <p>&copy; {new Date().getFullYear()} HackReality. Todos los derechos reservados.</p>
+      <p>&copy; 2024 HackReality. Make with ❤️ by 
+        <a href="https://www.linkedin.com/in/ana-alejandra-castillejo/" target="_blank" class="underline text-cyan-300">Ana</a>
+        && 
+        <a href="https://www.linkedin.com/in/victoor832/" target="_blank" class="underline text-cyan-300">Víctor</a>
+        </p>
+      <p class="mt-2">Organized by <span class="text-[#81E77A]">HackReality</span> from Málaga</p>
     </div>
   </div>
 </footer>
