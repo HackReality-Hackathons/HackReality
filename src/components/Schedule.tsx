@@ -16,7 +16,7 @@ interface ScheduleData {
 
 const schedule: ScheduleData = {
   'Viernes': [
-    { time: '16:00', endTime: '18:00', event: 'Registro', status: 'in-progress', type: 'registration', url: 'https://hackreality-spatial-computing.devpost.com/' },
+    { time: '16:00', endTime: '18:00', event: 'Registro y Formación de Equipos', status: 'in-progress', type: 'registration', url: 'https://hackreality-spatial-computing.devpost.com/' },
     { time: '18:00', endTime: '19:00', event: 'Ceremonia de apertura', status: 'upcoming', type: 'event' },
     { time: '19:00', endTime: '20:00', event: 'Formación de equipos', status: 'upcoming', type: 'event' },
     { time: '20:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
