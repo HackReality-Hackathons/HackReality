@@ -1,24 +1,41 @@
 ---
 import { Image } from 'astro:assets';
-
 const partners = [
-  { name: '42 Málaga Fundación Telefónica', logo: '/Sponsors/42_MLG_Logo_White.svg' },
-  { name: 'Crossmint', logo: '/Sponsors/crosmint white.png' },
+  { 
+    name: '42 Málaga Fundación Telefónica', 
+    logo: '/Sponsors/Untitled-1-02.png',
+    dimensions: {
+      width: 300,
+      height: 100
+    }
+  },
+  { 
+    name: 'Crossmint', 
+    logo: '/Sponsors/crosmint white.png',
+    dimensions: {
+      width: 250,
+      height: 100
+    }
+  }
 ];
 ---
-
-<section id="partners" class="py-20 bg-gradient-to-b from-purple-900 to-black">
+<section id="partners" class="py-20 mx-[-4rem] border-t border-purple-500/20">
   <div class="container mx-auto px-4">
     <h2 class="text-4xl font-bold text-center mb-12 text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-purple-500">
       Nuestros Socios
     </h2>
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
+    <div class="grid grid-cols-2 gap-8 justify-items-center max-w-4xl mx-auto">
       {partners.map((partner) => (
-        <div class="flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
-          <Image src={partner.logo} alt={partner.name} width={120} height={60} class="max-w-full h-auto" />
+        <div class="w-full h-[200px] flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
+          <Image
+            src={partner.logo}
+            alt={partner.name}
+            width={partner.dimensions.width}
+            height={partner.dimensions.height}
+            class="max-w-full h-auto object-contain"
+          />
         </div>
       ))}
     </div>
   </div>
 </section>
-

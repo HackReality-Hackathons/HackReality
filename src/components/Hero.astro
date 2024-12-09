@@ -6,31 +6,51 @@ import Countdown from './Countdown.astro';
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-r from-purple-900/50 to-green-900/50 mix-blend-multiply"></div>
-    <Image 
-      src="/hero-bg.jpg" 
-      alt="Spatial Computing Background" 
-      width={1920} 
-      height={1080} 
+    <Image
+      src="/hero-bg.jpg"
+      alt="Spatial Computing Background"
+      width={1920}
+      height={1080}
       class="w-full h-full object-cover"
     />
   </div>
+  
   <div class="relative z-10 text-center">
-    <h1 class="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+    <div class="perspective-wrapper mb-12">
+      <img 
+        src="Logo/Recurso-2.webp" 
+        class="hoverImage max-w-60 md:w-1/2 mx-auto" 
+        alt="HackReality Logo"
+        id="hoverLogo"
+      />
+    </div>
+
+    <h1 class="text-5xl md:text-7xl font-bold my-6 animate-fade-in-up">
       <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
         HackReality 2024
       </span>
     </h1>
+    
     <p class="text-2xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200">
       Explora el futuro del Spatial Computing
     </p>
+    
     <div class="flex justify-center space-x-4 animate-fade-in-up animation-delay-400">
-      <a href="https://hackreality-spatial-computing.devpost.com/" target="_blank" class="px-8 py-3 rounded-full bg-green-500 text-black font-bold hover:bg-green-400 transition-colors">
+      <a 
+        href="https://hackreality-spatial-computing.devpost.com/" 
+        target="_blank" 
+        class="px-8 py-3 rounded-full bg-green-500 text-black font-bold hover:bg-green-400 transition-colors"
+      >
         Participar
       </a>
-      <a href="#" class="px-8 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors">
+      <a 
+        href="#" 
+        class="px-8 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors"
+      >
         Más Información
       </a>
     </div>
+
     <div class="mt-16 animate-fade-in-up animation-delay-600">
       <Countdown targetDate="2024-12-13T17:00:00" />
     </div>
@@ -38,6 +58,20 @@ import Countdown from './Countdown.astro';
 </section>
 
 <style>
+  .perspective-wrapper {
+    perspective: 1000px;
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+  .hoverImage {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    cursor: pointer;
+    will-change: transform;
+  }
+
   @keyframes fade-in-up {
     from {
       opacity: 0;
@@ -66,3 +100,49 @@ import Countdown from './Countdown.astro';
   }
 </style>
 
+<script>
+  const initHoverEffect = () => {
+    const imageElement = document.getElementById('hoverLogo');
+    
+    if (!imageElement) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = imageElement.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      // Calcular la posición relativa del cursor
+      const dx = (x - rect.width / 2) / (rect.width / 2);
+      const dy = (y - rect.height / 2) / (rect.height / 2);
+      
+      // Aplicar la transformación
+      imageElement.style.transform = `
+        perspective(1000px) 
+        rotateY(${dx * 25}deg) 
+        rotateX(${-dy * 25}deg)
+        scale3d(1.05, 1.05, 1.05)
+      `;
+    };
+
+    const handleMouseLeave = () => {
+      imageElement.style.transform = `
+        perspective(1000px)
+        rotateY(0deg)
+        rotateX(0deg)
+        scale3d(1, 1, 1)
+      `;
+    };
+
+    imageElement.addEventListener('mousemove', handleMouseMove);
+    imageElement.addEventListener('mouseleave', handleMouseLeave);
+
+    // Cleanup function
+    return () => {
+      imageElement.removeEventListener('mousemove', handleMouseMove);
+      imageElement.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  };
+
+  // Initialize the effect when the DOM is ready
+  document.addEventListener('DOMContentLoaded', initHoverEffect);
+</script>
