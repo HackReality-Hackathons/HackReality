@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 427.81 427.81">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-4 {
+        fill: #7a4f9e;
+      }
+
+      .cls-4, .cls-2, .cls-5, .cls-6, .cls-3 {
+        stroke-miterlimit: 10;
+        stroke-width: 6px;
+      }
+
+      .cls-4, .cls-5, .cls-6, .cls-3 {
+        stroke: #000;
+      }
+
+      .cls-2 {
+        stroke: #424242;
+      }
+
+      .cls-5 {
+        fill: #4a6fa5;
+      }
+
+      .cls-6 {
+        fill: url(#Degradado_sin_nombre_15);
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_15" data-name="Degradado sin nombre 15" x1="75.09" y1="203.36" x2="285.25" y2="203.36" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#4a6fa5"/>
+      <stop offset=".28" stop-color="#5269a3"/>
+      <stop offset=".73" stop-color="#695aa0"/>
+      <stop offset="1" stop-color="#7a4f9e"/>
+    </linearGradient>
+  </defs>
+
+  <g id="Logotipo_01:_600_x_600_px" data-name="Logotipo 01: 600 x 600 px">
+    <circle class="cls-3" cx="204.99" cy="224.81" r="200"/>
+    <circle class="cls-1" cx="204.99" cy="24.81" r="24.81"/>
+    <circle class="cls-3" cx="204.99" cy="24.81" r="12.41"/>
+    <circle class="cls-1" cx="386.36" cy="308.44" r="24.81"/>
+    <circle class="cls-3" cx="386.36" cy="308.44" r="12.41"/>
+    <circle class="cls-1" cx="24.81" cy="308.44" r="24.81"/>
+    <circle class="cls-3" cx="24.81" cy="308.44" r="12.41"/>
+    <rect class="cls-5" x="229.71" y="70.91" width="20.74" height="264.89" transform="translate(-74.37 213.97) rotate(-42.2)"/>
+    <path class="cls-4" d="M213.42,187.21c-21.95,59.79-43.91,119.58-65.86,179.38,4.98,5.82,9.96,11.64,14.95,17.45,21.19-60.23,42.38-120.45,63.57-180.68"/>
+    <path class="cls-4" d="M212.33,188.19c26.2,32.95,69.73,32.55,86.8,13.81,15.61-17.14,14.04-55.06-13.88-79.92"/>
+    <path class="cls-3" d="M228.99,174.15c14.53,20.17,40.18,21.48,50.96,11.26,10.69-10.14,10.85-35.5-8.09-51.19"/>
+    <path class="cls-6" d="M75.09,284.64l13.93,15.37c41.47-37.6,82.94-75.2,124.4-112.8,23.94-21.71,47.89-43.42,71.83-65.13-4.64-5.12-9.29-10.24-13.93-15.36l-196.23,177.93Z"/>
+    <rect class="cls-5" x="169.8" y="114.82" width="20.74" height="264.89" transform="translate(-119.4 185.11) rotate(-42.2)"/>
+  </g>
+</svg>
