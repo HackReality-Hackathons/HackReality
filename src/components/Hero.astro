@@ -8,7 +8,7 @@ import Countdown from './Countdown.astro';
   </div>
 
   <div class="relative z-10 text-center">
-    <div class="flex justify-center items-center mb-4">
+    <div class="flex justify-center items-center">
         <img 
           src="Logo/1.png" 
           class="max-w-40 md:w-1/2 mx-auto hover-3d" 
@@ -18,7 +18,7 @@ import Countdown from './Countdown.astro';
         />
     </div>
 
-    <h1 class="text-4xl md:text-6xl font-bold mb-6 mt-10 animate-fade-in-up">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6  animate-fade-in-up">
       <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
         HackReality 2024
       </span>
@@ -114,8 +114,8 @@ import Countdown from './Countdown.astro';
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
 
-      const rotateX = ((y - centerY) / centerY) * 20;
-      const rotateY = ((x - centerX) / centerX) * 20;
+      const rotateX = ((y - centerY) / centerY) * 30;
+      const rotateY = ((x - centerX) / centerX) * 30;
 
       imageElement.style.transform = `
         perspective(1000px)

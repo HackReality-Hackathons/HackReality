@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify/react';
+import { Clock, PlayCircle, CheckCircle, HelpCircle } from 'lucide-react';
 
 interface ScheduleItem {
   time: string;
@@ -35,29 +35,38 @@ const schedule: ScheduleData = {
   ],
 };
 
-const getStatusIcon = (status: ScheduleItem['status']) => {
+const StatusIcon = ({ status, className }: { status: ScheduleItem['status'], className?: string }) => {
   switch (status) {
     case 'upcoming':
-      return 'mdi:clock-outline';
+      return <Clock className={className} />;
     case 'in-progress':
-      return 'mdi:play-circle-outline';
+      return <PlayCircle className={className} />;
     case 'ended':
-      return 'mdi:check-circle-outline';
+      return <CheckCircle className={className} />;
     default:
-      return 'mdi:help-circle-outline';
+      return <HelpCircle className={className} />;
   }
 };
 
-const getStatusColor = (status: ScheduleItem['status']) => {
+const getStatusColor = (status: ScheduleItem['status'], isBlinking: boolean) => {
   switch (status) {
     case 'upcoming':
       return 'text-blue-400';
     case 'in-progress':
-      return 'text-green-400';
+      return isBlinking ? 'text-red-300' : 'text-red-400'; // Blinking text color
     case 'ended':
       return 'text-red-400';
     default:
       return 'text-purple-400';
+  }
+};
+
+const getTimeColor = (status: ScheduleItem['status']) => {
+  switch (status) {
+    case 'in-progress':
+      return 'text-yellow-400';
+    default:
+      return 'text-green-400';
   }
 };
 
@@ -66,7 +75,7 @@ const getStatusBgColor = (status: ScheduleItem['status']) => {
     case 'upcoming':
       return 'bg-blue-900';
     case 'in-progress':
-      return 'bg-green-900';
+      return 'bg-green-700'; // Static green background
     case 'ended':
       return 'bg-red-900';
     default:
@@ -77,6 +86,7 @@ const getStatusBgColor = (status: ScheduleItem['status']) => {
 const ScheduleComponent: React.FC = () => {
   const [activeDay, setActiveDay] = useState('Viernes');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [isBlinking, setIsBlinking] = useState(false);
   const days = ['Viernes', 'Sábado', 'Domingo'];
 
   useEffect(() => {
@@ -86,6 +96,13 @@ const ScheduleComponent: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const blinkTimer = setInterval(() => {
+      setIsBlinking(prev => !prev);
+    }, 800);
+    return () => clearInterval(blinkTimer);
+  }, []);
+
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
   };
@@ -93,9 +110,8 @@ const ScheduleComponent: React.FC = () => {
   const isCurrentOrPast = (time: string, day: string) => {
     const [hours, minutes] = time.split(':').map(Number);
     const currentDate = new Date();
-    const currentDay = currentDate.getDay(); // 0 (Domingo) a 6 (Sábado)
+    const currentDay = currentDate.getDay();
     
-    // Mapear los días de la semana
     const dayMap: { [key: string]: number } = {
       'Viernes': 5,
       'Sábado': 6,
@@ -104,12 +120,10 @@ const ScheduleComponent: React.FC = () => {
 
     const eventDay = dayMap[day];
     
-    // Si es un día diferente
     if (currentDay !== eventDay) {
       return currentDay > eventDay || (currentDay === 0 && eventDay !== 0);
     }
 
-    // Si es el mismo día, comparar la hora
     const currentHour = currentDate.getHours();
     const currentMinutes = currentDate.getMinutes();
 
@@ -125,7 +139,7 @@ const ScheduleComponent: React.FC = () => {
       case 'break':
         return 'text-red-300';
       case 'registration':
-        return 'text-gray-500';
+        return 'text-gray-200';
       default:
         return 'text-gray-300';
     }
@@ -133,7 +147,7 @@ const ScheduleComponent: React.FC = () => {
 
   const ItemContent = ({ item }: { item: ScheduleItem }) => (
     <div className="flex items-center w-full transition-colors rounded-lg p-4">
-      <span className="text-xl font-bold text-green-400 mr-4">
+      <span className={`text-xl font-bold mr-4 ${getTimeColor(item.status)}`}>
         {item.time} {item.endTime ? `- ${item.endTime}` : ''}
       </span>
       <div className="flex-grow">
@@ -143,8 +157,11 @@ const ScheduleComponent: React.FC = () => {
         </span>
       </div>
       <div className="flex items-center">
-        <Icon icon={getStatusIcon(item.status)} className={`w-6 h-6 mr-2 ${getStatusColor(item.status)}`} />
-        <span className={`capitalize ${getStatusColor(item.status)}`}>
+        <StatusIcon 
+          status={item.status} 
+          className={`w-6 h-6 mr-2 ${getStatusColor(item.status, isBlinking)}`} 
+        />
+        <span className={`capitalize font-bold ${getStatusColor(item.status, isBlinking)}`}>
           {isCurrentOrPast(item.time, activeDay) ? 
             (item.time === formatTime(currentTime) ? 'En curso' : 'Finalizado') 
             : item.status.replace('-', ' ')}
@@ -154,13 +171,13 @@ const ScheduleComponent: React.FC = () => {
   );
 
   return (
-    <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20">
+    <div className="bg-black/60 backdrop-blur-sm rounded-lg p-6">
       <div className="flex justify-center space-x-4 mb-8">
         {days.map((day) => (
           <button
             key={day}
             className={`px-6 py-2 rounded-full font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 ${
-              activeDay === day ? 'bg-purple-600 text-white' : 'bg-purple-200 text-purple-800 hover:bg-purple-300'
+              activeDay === day ? 'bg-violet-700 text-white' : 'bg-purple-200 text-purple-800 hover:bg-purple-300'
             }`}
             onClick={() => setActiveDay(day)}
           >

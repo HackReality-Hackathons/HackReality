@@ -1,30 +1,32 @@
 ---
 import { Icon } from 'astro-icon/components';
-
 const features = [
-  {
-    icon: 'mdi:virtual-reality',
-    title: 'Spatial Computing',
-    description: 'Explora las posibilidades infinitas de la computación espacial y la realidad mixta.'
-  },
-  {
-    icon: 'mdi:brain',
-    title: 'IA Avanzada',
-    description: 'Integra inteligencia artificial de vanguardia en tus proyectos espaciales.'
-  },
-  {
-    icon: 'mdi:hand-front-right',
-    title: 'Interacción Natural',
-    description: 'Desarrolla interfaces intuitivas utilizando gestos, voz y seguimiento ocular.'
-  },
-  {
-    icon: 'mdi:account-group',
-    title: 'Colaboración en Tiempo Real',
-    description: 'Crea experiencias multiusuario en entornos virtuales compartidos.'
-  }
+ {
+   icon: 'mdi:virtual-reality',
+   title: 'Spatial Computing',
+   description: 'Explora las posibilidades infinitas de la computación espacial y la realidad mixta.',
+   iconColor: 'text-red-400' // Color cyan para VR
+ },
+ {
+   icon: 'mdi:brain',
+   title: 'IA Avanzada',
+   description: 'Integra inteligencia artificial de vanguardia en tus proyectos espaciales.',
+   iconColor: 'text-orange-400' // Color morado para IA
+ },
+ {
+   icon: 'mdi:hand-front-right',
+   title: 'Interacción Natural',
+   description: 'Desarrolla interfaces intuitivas utilizando gestos, voz y seguimiento ocular.',
+   iconColor: 'text-teal-400' // Color naranja para interacción
+ },
+ {
+   icon: 'mdi:account-group',
+   title: 'Colaboración en Tiempo Real',
+   description: 'Crea experiencias multiusuario en entornos virtuales compartidos.',
+   iconColor: 'text-rose-400' // Color azul para colaboración
+ }
 ];
 ---
-
 <section id="features" class="py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
   <div class="container mx-auto px-4">
     <h2 class="text-4xl font-bold text-center mb-12 text-green-400">
@@ -32,8 +34,8 @@ const features = [
     </h2>
     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       {features.map((feature) => (
-        <div class="bg-black/50 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/40 transition-all hover:transform hover:scale-105">
-          <Icon name={feature.icon} class="w-12 h-12 text-purple-400 mb-4" />
+        <div class="bg-black/50 backdrop-blur-sm rounded-xl p-6  transition-all hover:transform hover:scale-105">
+          <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor} mb-4`} />
           <h3 class="text-xl font-semibold mb-2 text-purple-200">{feature.title}</h3>
           <p class="text-gray-400">{feature.description}</p>
         </div>
