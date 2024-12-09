@@ -8,20 +8,13 @@ import Countdown from './Countdown.astro';
   </div>
 
   <div class="relative z-10 text-center mt-8">
-    <div class="perspective-wrapper mb-10">
-      <div class="relative inline-flex w-fit h-fit">
-        <div class="overflow-hidden w-fit h-fit">
-          <div class="transform-container">
-            <img 
-              src="Logo/Recurso-2.webp" 
-              class="hoverImage max-w-40 md:w-1/2 mx-auto object-contain relative z-10" 
-              alt="HackReality Logo"
-              id="hoverLogo"
-            />
-            <div class="shine absolute inset-0 pointer-events-none z-20"></div>
-          </div>
-        </div>
-      </div>
+    <div class="flex justify-center items-center mb-10">
+      <img 
+        src="Logo/Recurso-2.webp" 
+        class="max-w-40 md:w-1/2 mx-auto hover-3d" 
+        alt="HackReality Logo"
+        id="hoverLogo"
+      />
     </div>
 
     <h1 class="text-4xl md:text-6xl font-bold mb-6 mt-10 animate-fade-in-up">
@@ -57,43 +50,12 @@ import Countdown from './Countdown.astro';
 </section>
 
 <style>
-  .perspective-wrapper {
-    perspective: 1000px;
-    width: fit-content;
-    height: fit-content;
-    margin: 0 auto;
-  }
-
-  .transform-container {
+  .hover-3d {
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
-    position: relative;
-  }
-
-  .hoverImage {
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    height: 100%;
-    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-  }
-
-  .shine {
-    opacity: 0;
-    background: radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.8) 0%,
-      rgba(255, 255, 255, 0.3) 20%,
-      transparent 50%
-    );
-    transition: opacity 0.3s;
-    pointer-events: none;
-    mix-blend-mode: overlay;
-  }
-
-  .shine-active {
-    opacity: 1;
+    transform: perspective(1000px);
+    cursor: pointer;
   }
 
   @keyframes fade-in-up {
@@ -127,66 +89,58 @@ import Countdown from './Countdown.astro';
 <script>
   const initHoverEffect = () => {
     const imageElement = document.getElementById('hoverLogo') as HTMLImageElement;
-    const wrapper = imageElement?.closest('.transform-container') as HTMLDivElement;
-    const shineElement = wrapper?.querySelector('.shine') as HTMLDivElement;
     
-    if (!imageElement || !shineElement || !wrapper) return;
+    if (!imageElement) return;
 
-    // Set initial dimensions of wrapper based on image
-    const setWrapperDimensions = () => {
-      const { width, height } = imageElement.getBoundingClientRect();
-      wrapper.style.width = `${width}px`;
-      wrapper.style.height = `${height}px`;
-      shineElement.style.width = `${width}px`;
-      shineElement.style.height = `${height}px`;
-    };
+    let isHovering = false;
 
-    // Set initial dimensions
-    setWrapperDimensions();
+    const handleMouseMove = (event: MouseEvent) => {
+      if (!isHovering) return;
 
-    // Update dimensions on window resize
-    window.addEventListener('resize', setWrapperDimensions);
+      const rect = imageElement.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
-    const handleMouseMove = (e: Event) => {
-      const mouseEvent = e as MouseEvent;
-      const rect = wrapper.getBoundingClientRect();
-      const x = mouseEvent.clientX - rect.left;
-      const y = mouseEvent.clientY - rect.top;
-      
-      const dx = (x - rect.width / 2) / (rect.width / 2);
-      const dy = (y - rect.height / 2) / (rect.height / 2);
-      
-      wrapper.style.transform = `
-        rotateY(${dx * 25}deg) 
-        rotateX(${-dy * 25}deg)
-        scale3d(1.05, 1.05, 1.05)
+      // Verificar si el mouse está dentro de la imagen
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+        handleMouseLeave();
+        return;
+      }
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * 20;
+      const rotateY = ((x - centerX) / centerX) * 20;
+
+      imageElement.style.transform = `
+        perspective(1000px)
+        rotateX(${-rotateX}deg) 
+        rotateY(${rotateY}deg)
+        scale3d(1.1, 1.1, 1.1)
       `;
-
-      const moveX = (x / rect.width) * 100;
-      const moveY = (y / rect.height) * 100;
-      
-      shineElement.classList.add('shine-active');
-      shineElement.style.background = `radial-gradient(
-        circle at ${moveX}% ${moveY}%,
-        rgba(255, 255, 255, 0.8) 0%,
-        rgba(255, 255, 255, 0.3) 20%,
-        transparent 50%
-      )`;
     };
 
     const handleMouseLeave = () => {
-      wrapper.style.transform = 'none';
-      shineElement.classList.remove('shine-active');
+      isHovering = false;
+      imageElement.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
     };
 
-    wrapper.parentElement?.addEventListener('mousemove', handleMouseMove as EventListener);
-    wrapper.parentElement?.addEventListener('mouseleave', handleMouseLeave);
+    const handleMouseEnter = () => {
+      isHovering = true;
+      imageElement.style.transition = 'transform 0.1s ease-out';
+    };
 
-    // Cleanup
+    // Eventos en la imagen
+    imageElement.addEventListener('mouseenter', handleMouseEnter);
+    imageElement.addEventListener('mouseleave', handleMouseLeave);
+    // Evento de movimiento en el documento para seguir el mouse
+    document.addEventListener('mousemove', handleMouseMove);
+
     return () => {
-      window.removeEventListener('resize', setWrapperDimensions);
-      wrapper.parentElement?.removeEventListener('mousemove', handleMouseMove as EventListener);
-      wrapper.parentElement?.removeEventListener('mouseleave', handleMouseLeave);
+      imageElement.removeEventListener('mouseenter', handleMouseEnter);
+      imageElement.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove', handleMouseMove);
     };
   };
 
