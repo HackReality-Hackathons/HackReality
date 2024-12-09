@@ -1,98 +1,194 @@
 import React, { useState, useEffect } from 'react';
+import { Icon } from '@iconify/react';
 
-export interface ScheduleItem {
+interface ScheduleItem {
   time: string;
   endTime?: string;
-  title: string;
+  event: string;
+  status: 'upcoming' | 'in-progress' | 'ended';
   type: 'event' | 'talk' | 'workshop' | 'break' | 'registration';
-  url: string; // Nueva propiedad
+  url?: string;
 }
 
-interface ScheduleComponentProps {
-  initialSchedule: ScheduleItem[];
-  registrationEndDate: string;
+interface ScheduleData {
+  [key: string]: ScheduleItem[];
 }
 
-const ScheduleComponent: React.FC<ScheduleComponentProps> = ({ initialSchedule, registrationEndDate }) => {
-  const [schedule, setSchedule] = useState<ScheduleItem[]>(initialSchedule);
+const schedule: ScheduleData = {
+  'Viernes': [
+    { time: '16:00', endTime: '18:00', event: 'Registro', status: 'in-progress', type: 'registration', url: 'https://hackreality-spatial-computing.devpost.com/' },
+    { time: '18:00', endTime: '19:00', event: 'Ceremonia de apertura', status: 'upcoming', type: 'event' },
+    { time: '19:00', endTime: '20:00', event: 'Formación de equipos', status: 'upcoming', type: 'event' },
+    { time: '20:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
+  ],
+  'Sábado': [
+    { time: '00:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
+    { time: '10:00', endTime: '11:00', event: 'Workshop: Intro a Spatial Computing', status: 'upcoming', type: 'workshop' },
+    { time: '15:00', endTime: '16:00', event: 'Workshop: IA en Realidad Aumentada', status: 'upcoming', type: 'workshop' },
+    { time: '20:00', endTime: '21:00', event: 'Cena networking', status: 'upcoming', type: 'break' },
+  ],
+  'Domingo': [
+    { time: '00:00', endTime: '12:00', event: 'Hacking', status: 'upcoming', type: 'event' },
+    { time: '12:00', endTime: '14:00', event: 'Presentaciones de proyectos', status: 'upcoming', type: 'talk' },
+    { time: '14:00', endTime: '15:00', event: 'Deliberación del jurado', status: 'upcoming', type: 'event' },
+    { time: '15:00', endTime: '16:00', event: 'Ceremonia de clausura y premios', status: 'upcoming', type: 'event' },
+  ],
+};
+
+const getStatusIcon = (status: ScheduleItem['status']) => {
+  switch (status) {
+    case 'upcoming':
+      return 'mdi:clock-outline';
+    case 'in-progress':
+      return 'mdi:play-circle-outline';
+    case 'ended':
+      return 'mdi:check-circle-outline';
+    default:
+      return 'mdi:help-circle-outline';
+  }
+};
+
+const getStatusColor = (status: ScheduleItem['status']) => {
+  switch (status) {
+    case 'upcoming':
+      return 'text-blue-400';
+    case 'in-progress':
+      return 'text-green-400';
+    case 'ended':
+      return 'text-red-400';
+    default:
+      return 'text-purple-400';
+  }
+};
+
+const getStatusBgColor = (status: ScheduleItem['status']) => {
+  switch (status) {
+    case 'upcoming':
+      return 'bg-blue-900';
+    case 'in-progress':
+      return 'bg-green-900';
+    case 'ended':
+      return 'bg-red-900';
+    default:
+      return 'bg-purple-900';
+  }
+};
+
+const ScheduleComponent: React.FC = () => {
+  const [activeDay, setActiveDay] = useState('Viernes');
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const days = ['Viernes', 'Sábado', 'Domingo'];
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
-
-  const isRegistrationOpen = () => {
-    const endDate = new Date(registrationEndDate);
-    return currentTime < endDate;
-  };
-
-  const isCurrentOrPast = (time: string) => {
-    const [hours, minutes] = time.split(':').map(Number);
-    const eventTime = new Date(currentTime);
-    eventTime.setHours(hours, minutes, 0, 0);
-    return currentTime >= eventTime;
-  };
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
   };
 
+  const isCurrentOrPast = (time: string, day: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay(); // 0 (Domingo) a 6 (Sábado)
+    
+    // Mapear los días de la semana
+    const dayMap: { [key: string]: number } = {
+      'Viernes': 5,
+      'Sábado': 6,
+      'Domingo': 7
+    };
+
+    const eventDay = dayMap[day];
+    
+    // Si es un día diferente
+    if (currentDay !== eventDay) {
+      return currentDay > eventDay || (currentDay === 0 && eventDay !== 0);
+    }
+
+    // Si es el mismo día, comparar la hora
+    const currentHour = currentDate.getHours();
+    const currentMinutes = currentDate.getMinutes();
+
+    return currentHour > hours || (currentHour === hours && currentMinutes >= minutes);
+  };
+
+  const getTypeColor = (type: ScheduleItem['type']) => {
+    switch (type) {
+      case 'talk':
+        return 'text-blue-300';
+      case 'workshop':
+        return 'text-yellow-300';
+      case 'break':
+        return 'text-red-300';
+      case 'registration':
+        return 'text-gray-500';
+      default:
+        return 'text-gray-300';
+    }
+  };
+
+  const ItemContent = ({ item }: { item: ScheduleItem }) => (
+    <div className="flex items-center w-full transition-colors rounded-lg p-4">
+      <span className="text-xl font-bold text-green-400 mr-4">
+        {item.time} {item.endTime ? `- ${item.endTime}` : ''}
+      </span>
+      <div className="flex-grow">
+        <h3 className="text-lg font-semibold text-white">{item.event}</h3>
+        <span className={getTypeColor(item.type)}>
+          {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+        </span>
+      </div>
+      <div className="flex items-center">
+        <Icon icon={getStatusIcon(item.status)} className={`w-6 h-6 mr-2 ${getStatusColor(item.status)}`} />
+        <span className={`capitalize ${getStatusColor(item.status)}`}>
+          {isCurrentOrPast(item.time, activeDay) ? 
+            (item.time === formatTime(currentTime) ? 'En curso' : 'Finalizado') 
+            : item.status.replace('-', ' ')}
+        </span>
+      </div>
+    </div>
+  );
+
   return (
     <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-purple-500/20">
-      <div className="mb-4 text-center">
-        <span className="text-2xl font-bold text-green-400">Hora actual: {formatTime(currentTime)}</span>
+      <div className="flex justify-center space-x-4 mb-8">
+        {days.map((day) => (
+          <button
+            key={day}
+            className={`px-6 py-2 rounded-full font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 ${
+              activeDay === day ? 'bg-purple-600 text-white' : 'bg-purple-200 text-purple-800 hover:bg-purple-300'
+            }`}
+            onClick={() => setActiveDay(day)}
+          >
+            {day}
+          </button>
+        ))}
       </div>
+
       <ul className="space-y-4">
-        {isRegistrationOpen() ? (
-          <li className="flex items-center p-4 rounded-lg bg-purple-900/50">
-            <a href="https://hackreality-spatial-computing.devpost.com/" target='_blank' className="flex items-center w-full hover:bg-purple-800/50 transition-colors rounded-lg p-2">
-              <span className="text-xl font-bold text-green-400 mr-4">Registro abierto</span>
-              <div className="flex-grow">
-                <h3 className="text-lg font-semibold text-white">Registro para HackReality 2024</h3>
-                <span className="text-sm text-gray-500">Abierto hasta el {new Date(registrationEndDate).toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' })}</span>
-              </div>
-            </a>
-          </li>
-        ) : (
-          schedule.map((item, index) => (
-            <li 
-              key={index} 
-              className={`flex items-center p-4 rounded-lg transition-all ${
-                isCurrentOrPast(item.time) ? 'bg-purple-900/50' : 'bg-black/50'
-              }`}
-            >
-              <a href={item.url} className="flex items-center w-full hover:bg-purple-800/50 transition-colors rounded-lg p-2">
-                <span className="text-xl font-bold text-green-400 mr-4">
-                  {item.time}{item.endTime ? ` - ${item.endTime}` : ''}
-                </span>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                  <span className={`text-sm ${
-                    item.type === 'talk' ? 'text-blue-300' :
-                    item.type === 'workshop' ? 'text-yellow-300' :
-                    item.type === 'break' ? 'text-red-300' :
-                    item.type === 'registration' ? 'text-gray-500' : 'text-gray-300'
-                  }`}>
-                    {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
-                  </span>
-                </div>
-                {isCurrentOrPast(item.time) && (
-                  <span className="text-green-400 ml-4">
-                    {item.time === formatTime(currentTime) ? 'En curso' : 'Finalizado'}
-                  </span>
-                )}
+        {schedule[activeDay].map((item, index) => (
+          <li
+            key={index}
+            className={`flex items-center rounded-lg transition-all ${
+              getStatusBgColor(item.status)
+            }`}
+          >
+            {item.type === 'registration' ? (
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="w-full">
+                <ItemContent item={item} />
               </a>
-            </li>
-          ))
-        )}
+            ) : (
+              <ItemContent item={item} />
+            )}
+          </li>
+        ))}
       </ul>
     </div>
   );
 };
 
 export default ScheduleComponent;
-
