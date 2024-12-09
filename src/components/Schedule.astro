@@ -1,0 +1,28 @@
+---
+import { Schedule as ScheduleComponent } from './Schedule';
+
+type ScheduleItem = {
+  time: string;
+  title: string;
+  type: 'event' | 'talk' | 'workshop' | 'break';
+};
+
+const scheduleData: ScheduleItem[] = [
+  { time: '09:00', title: 'Registro y Bienvenida', type: 'event' },
+  { time: '10:00', title: 'Keynote: El Futuro del Spatial Computing', type: 'talk' },
+  { time: '11:30', title: 'Taller: Introducción a Unity XR', type: 'workshop' },
+  { time: '13:00', title: 'Almuerzo', type: 'break' },
+  { time: '14:00', title: 'Panel: Desafíos en IA para Spatial Computing', type: 'talk' },
+  { time: '15:30', title: 'Taller: Diseño de Interfaces para AR', type: 'workshop' },
+  { time: '17:00', title: 'Networking y Cierre', type: 'event' },
+];
+---
+
+<section id="schedule" class="py-20 bg-gradient-to-b from-purple-600 to-black">
+  <div class="container mx-auto px-4">
+    <h2 class="font-bold text-4xl text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-500">
+      Horario del Evento
+    </h2>
+    <ScheduleComponent client:load initialSchedule={scheduleData} />
+  </div>
+</section>
