@@ -1,0 +1,86 @@
+---
+import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
+const teamMembers = [
+  { 
+    name: 'Ana', 
+    role: 'Co-fundadora', 
+    linkedin: 'https://www.linkedin.com/in/ana-alejandra-castillejo/',
+    image: 'https://media.licdn.com/dms/image/v2/D4D03AQF6tkC4YxbaJg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1706220269525?e=1739404800&v=beta&t=GGLlKItAjd-gHFtUxxqqzowrQP9mvFlCCdn3ZBj1OKI' // Add the path to Ana's profile picture
+  },
+  { 
+    name: 'Víctor', 
+    role: 'Co-fundador', 
+    linkedin: 'https://www.linkedin.com/in/victoor832/',
+    image: 'https://media.licdn.com/dms/image/v2/D4D03AQHNMO_GInmcuw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1708699495670?e=1739404800&v=beta&t=Lt-R5pvL6NmjrhH6V62Sjy9PpUhMU2zBH2oKnSENDak' // Add the path to Víctor's profile picture
+  },
+];
+
+const missionPoints = [
+  { icon: 'mdi:lightbulb', text: 'Impulsar la innovación en Spatial Computing' },
+  { icon: 'mdi:account-group', text: 'Crear una comunidad de desarrolladores apasionados' },
+  { icon: 'mdi:school', text: 'Fomentar el aprendizaje y la colaboración' },
+  { icon: 'mdi:rocket-launch', text: 'Lanzar proyectos que definan el futuro de la tecnología' },
+];
+---
+
+<section id="about" class="py-16 sm:py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-8 sm:mb-12 text-green-400">
+      Sobre HackReality
+    </h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div class="space-y-6">
+        <p class="text-lg sm:text-xl text-gray-300">
+          HackReality nació de la pasión por la tecnología y la visión de un futuro donde el Spatial Computing revolucione nuestra interacción con el mundo digital.
+        </p>
+        <p class="text-lg sm:text-xl text-gray-300">
+          Somos un equipo de entusiastas tecnológicos que cree en el poder de la colaboración y la innovación para dar forma al mañana.
+        </p>
+      </div>
+      
+      <div class="bg-black/60 backdrop-blur-sm rounded-xl p-6 space-y-4">
+        <h3 class="text-2xl font-semibold text-purple-300 mb-4">Nuestra Misión</h3>
+        {missionPoints.map(point => (
+          <div class="flex items-center space-x-4">
+            <Icon name={point.icon} class="w-6 h-6 text-green-400" />
+            <p class="text-gray-200">{point.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="mt-12 sm:mt-16">
+      <h3 class="text-2xl sm:text-3xl font-semibold text-center text-purple-300 mb-6">Nuestro Equipo</h3>
+      <div class="flex justify-center space-x-8">
+        {teamMembers.map(member => (
+          <div class="text-center">
+            <div class="w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden">
+              <Image 
+                src={member.image} 
+                alt={`Foto de perfil de ${member.name}`} 
+                width={96} 
+                height={96} 
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <h4 class="text-xl font-semibold text-white">{member.name}</h4>
+            <p class="text-gray-400">{member.role}</p>
+            <a href={member.linkedin} target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-blue-400 hover:text-blue-300 transition-colors">
+              <Icon name="mdi:linkedin" class="w-6 h-6" />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+    
+    <div class="mt-12 sm:mt-16 text-center">
+      <a href="#" class="inline-block px-6 py-3 text-lg font-semibold text-black bg-green-400 rounded-full hover:bg-green-300 transition-colors">
+        Únete a Nuestra Comunidad
+      </a>
+    </div>
+  </div>
+</section>
+
