@@ -37,34 +37,34 @@ const features = [
 ];
 ---
 
-<section id="features" class="py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
+<section id="features" class="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-black/50 to-purple-900/50">
   <div class="container mx-auto px-4">
-    <h2 class="text-4xl font-bold text-center mb-12 text-green-400">
+    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 text-green-400">
       Características del Hackathon
     </h2>
-    <div class="grid grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
       {features.map((feature, index) => (
         <div class="relative">
           <button 
-            class="w-full text-left bg-black/50 backdrop-blur-sm rounded-xl p-8 transition-all hover:transform hover:scale-105 cursor-pointer h-[220px]"
+            class="w-full text-left bg-black/50 backdrop-blur-sm rounded-xl p-4 sm:p-6 md:p-8 transition-all hover:transform hover:scale-105 cursor-pointer h-full sm:h-[220px]"
             data-modal={`modal-${index}`}
           >
-            <div class="flex items-center gap-4 mb-6">
-              <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor}`} />
-              <h3 class="text-xl font-semibold text-purple-200 leading-tight">{feature.title}</h3>
+            <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <Icon name={feature.icon} class={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 ${feature.iconColor}`} />
+              <h3 class="text-lg sm:text-xl font-semibold text-purple-200 leading-tight">{feature.title}</h3>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">{feature.shortDescription}</p>
+            <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">{feature.shortDescription}</p>
           </button>
 
           <dialog 
             id={`modal-${index}`} 
-            class="modal backdrop:bg-black/80 bg-black text-white p-8 rounded-xl max-w-2xl mx-auto"
+            class="modal backdrop:bg-black/80 bg-black text-white p-4 sm:p-6 md:p-8 rounded-xl w-11/12 max-w-2xl mx-auto"
           >
             <div class="modal-content">
-              <div class="flex items-center justify-between mb-6">
-                <div class="flex items-center gap-4">
-                  <Icon name={feature.icon} class={`w-12 h-12 ${feature.iconColor}`} />
-                  <h3 class="text-2xl font-bold text-purple-200">{feature.title}</h3>
+              <div class="flex items-center justify-between mb-4 sm:mb-6">
+                <div class="flex items-center gap-3 sm:gap-4">
+                  <Icon name={feature.icon} class={`w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 ${feature.iconColor}`} />
+                  <h3 class="text-xl sm:text-2xl font-bold text-purple-200">{feature.title}</h3>
                 </div>
                 <button 
                   class="close-modal text-gray-400 hover:text-white"
@@ -73,9 +73,9 @@ const features = [
                   <Icon name="mdi:close" class="w-6 h-6" />
                 </button>
               </div>
-              <div class="space-y-4">
-                <p class="text-gray-300" set:html={feature.description}></p>
-                <p class="text-gray-300">{feature.extraInfo}</p>
+              <div class="space-y-3 sm:space-y-4">
+                <p class="text-gray-300 text-sm sm:text-base" set:html={feature.description}></p>
+                <p class="text-gray-300 text-sm sm:text-base">{feature.extraInfo}</p>
               </div>
             </div>
           </dialog>
@@ -162,3 +162,4 @@ const features = [
    });
  });
 </script>
+

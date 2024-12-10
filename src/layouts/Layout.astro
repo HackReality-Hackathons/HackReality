@@ -1,36 +1,74 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import '../styles/global.css';
+
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { 
+  title, 
+  description = "HackReality 2024 - El hackathon de spatial computing más innovador" 
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="HackReality 2024 - El hackathon de spatial computing más innovador">
-    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description}>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/svg+xml" href="Logo/Recurso-2.webp" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Inter:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/Logo/Recurso-2.webp" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ViewTransitions />
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/Logo/Recurso-2.webp" as="image" type="image/webp">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/og-image.jpg" /> <!-- Add your OG image -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content="/twitter-image.jpg" /> <!-- Add your Twitter image -->
   </head>
-  <body class="bg-black text-white overflow-x-hidden">
-    <div class="stars absolute inset-0 z-0"></div>
-    <div class="relative z-10">
+  <body class="bg-black text-white overflow-x-hidden min-h-screen flex flex-col">
+    <div class="stars fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></div>
+    <div class="relative z-10 flex-grow">
       <slot />
     </div>
+    <footer class="relative z-10 text-center p-4 text-sm text-gray-400">
+      <p>&copy; {new Date().getFullYear()} HackReality. Todos los derechos reservados.</p>
+    </footer>
   </body>
 </html>
 
 <style is:global>
+  :root {
+    --font-bricolage: 'Bricolage Grotesque', sans-serif;
+    --font-inter: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-inter);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-bricolage);
+  }
+
   @keyframes twinkle {
     0% { opacity: 0; }
     50% { opacity: 1; }
@@ -48,6 +86,18 @@ const { title } = Astro.props;
     background-repeat: repeat;
     background-size: 200px 200px;
     animation: twinkle 4s infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stars {
+      animation: none;
+    }
+  }
+
+  /* Improved focus styles for better accessibility */
+  :focus-visible {
+    outline: 2px solid #4CAF50;
+    outline-offset: 2px;
   }
 </style>
 

@@ -2,29 +2,29 @@
 import Countdown from './Countdown.astro';
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden py-20">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden py-12 sm:py-16 md:py-20">
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-gradient-to-b from-purple-900/90 to-black/50 mix-blend-multiply"></div>
   </div>
 
-  <div class="relative z-10 text-center">
-    <div class="flex justify-center items-center">
+  <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-center items-center mb-6 sm:mb-8 md:mb-10">
         <img 
           src="Logo/1.png" 
-          class="max-w-40 md:w-1/2 mx-auto hover-3d" 
+          class="w-32 sm:w-40 md:w-48 lg:w-56 mx-auto hover-3d" 
           alt="HackReality Logo"
           id="hoverLogo"
           loading="lazy"
         />
     </div>
 
-    <h1 class="text-4xl md:text-6xl font-bold mb-6  animate-fade-in-up">
+    <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-up">
       <span class="bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-purple-600">
         HackReality 2024
       </span>
     </h1>
 
-    <p class="text-xl md:text-3xl text-purple-200 mb-8 animate-fade-in-up animation-delay-200 font-bold">
+    <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl text-purple-200 mb-6 sm:mb-8 animate-fade-in-up animation-delay-200 font-bold">
       ¡Conecta, Colabora, Crea: Hackea tu potencial!
     </p>
 
@@ -32,19 +32,19 @@ import Countdown from './Countdown.astro';
       <a 
         href="https://hackreality-spatial-computing.devpost.com/" 
         target="_blank" 
-        class="px-8 py-3 rounded-full bg-green-600 text-black font-bold hover:bg-green-500 transition-colors"
+        class="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-green-600 text-black font-bold hover:bg-green-500 transition-colors text-sm sm:text-base"
       >
         Regístrate Ya
       </a>
  <!--      <a 
         href="#" 
-        class="px-8 py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors"
+        class="px-6 sm:px-8 py-2 sm:py-3 rounded-full bg-purple-600 text-white font-bold hover:bg-purple-500 transition-colors text-sm sm:text-base"
       >
         Más Información
       </a> -->
     </div>
 
-    <div class="mt-10 animate-fade-in-up animation-delay-600">
+    <div class="mt-8 sm:mt-10 animate-fade-in-up animation-delay-600">
       <Countdown targetDate="2024-12-13T17:00:00" />
     </div>
   </div>
@@ -52,7 +52,7 @@ import Countdown from './Countdown.astro';
 
 <style>
   .hover-3d {
-    transform: scale(4);
+    transform: scale(1);
     transform-style: preserve-3d;
     transition: transform 0.1s ease-out;
     backface-visibility: hidden;
@@ -152,3 +152,4 @@ import Countdown from './Countdown.astro';
   // Inicializar efecto cuando el DOM esté listo
   document.addEventListener('DOMContentLoaded', initHoverEffect);
 </script>
+

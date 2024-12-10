@@ -53,7 +53,7 @@ const getStatusColor = (status: ScheduleItem['status'], isBlinking: boolean) => 
     case 'upcoming':
       return 'text-blue-400';
     case 'in-progress':
-      return isBlinking ? 'text-red-300' : 'text-red-400'; // Blinking text color
+      return isBlinking ? 'text-red-300' : 'text-red-400';
     case 'ended':
       return 'text-red-400';
     default:
@@ -75,7 +75,7 @@ const getStatusBgColor = (status: ScheduleItem['status']) => {
     case 'upcoming':
       return 'bg-sky-800';
     case 'in-progress':
-      return 'bg-green-700'; // Static green background
+      return 'bg-green-700';
     case 'ended':
       return 'bg-red-900';
     default:
@@ -146,22 +146,22 @@ const ScheduleComponent: React.FC = () => {
   };
 
   const ItemContent = ({ item }: { item: ScheduleItem }) => (
-    <div className="flex items-center w-full transition-colors rounded-lg p-4">
-      <span className={`text-xl font-bold mr-4 ${getTimeColor(item.status)}`}>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center w-full transition-colors rounded-lg p-4">
+      <span className={`text-base sm:text-xl font-bold mb-2 sm:mb-0 sm:mr-4 ${getTimeColor(item.status)}`}>
         {item.time} {item.endTime ? `- ${item.endTime}` : ''}
       </span>
-      <div className="flex-grow">
-        <h3 className="text-lg font-semibold text-white">{item.event}</h3>
-        <span className={getTypeColor(item.type)}>
+      <div className="flex-grow mb-2 sm:mb-0">
+        <h3 className="text-base sm:text-lg font-semibold text-white">{item.event}</h3>
+        <span className={`text-sm ${getTypeColor(item.type)}`}>
           {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
         </span>
       </div>
       <div className="flex items-center">
         <StatusIcon 
           status={item.status} 
-          className={`w-6 h-6 mr-2 ${getStatusColor(item.status, isBlinking)}`} 
+          className={`w-4 h-4 sm:w-6 sm:h-6 mr-2 ${getStatusColor(item.status, isBlinking)}`} 
         />
-        <span className={`capitalize font-bold ${getStatusColor(item.status, isBlinking)}`}>
+        <span className={`text-sm sm:text-base capitalize font-bold ${getStatusColor(item.status, isBlinking)}`}>
           {isCurrentOrPast(item.time, activeDay) ? 
             (item.time === formatTime(currentTime) ? 'En curso' : 'Finalizado') 
             : item.status.replace('-', ' ')}
@@ -171,12 +171,12 @@ const ScheduleComponent: React.FC = () => {
   );
 
   return (
-    <div className="bg-black/60 backdrop-blur-sm rounded-lg p-6">
-      <div className="flex justify-center space-x-4 mb-8">
+    <div className="bg-black/60 backdrop-blur-sm rounded-lg p-4 sm:p-6">
+      <div className="flex flex-wrap justify-center gap-2 sm:space-x-4 mb-6 sm:mb-8">
         {days.map((day) => (
           <button
             key={day}
-            className={`px-6 py-2 rounded-full font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 ${
+            className={`px-4 sm:px-6 py-2 rounded-full text-sm sm:text-base font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50 ${
               activeDay === day ? 'bg-violet-700 text-white' : 'bg-purple-200 text-purple-800 hover:bg-purple-300'
             }`}
             onClick={() => setActiveDay(day)}
@@ -190,12 +190,12 @@ const ScheduleComponent: React.FC = () => {
         {schedule[activeDay].map((item, index) => (
           <li
             key={index}
-            className={`flex items-center rounded-lg transition-all ${
+            className={`rounded-lg transition-all ${
               getStatusBgColor(item.status)
             }`}
           >
             {item.type === 'registration' ? (
-              <a href={item.url} target="_blank" rel="noopener noreferrer" className="w-full">
+              <a href={item.url} target="_blank" rel="noopener noreferrer" className="block w-full">
                 <ItemContent item={item} />
               </a>
             ) : (
@@ -209,3 +209,4 @@ const ScheduleComponent: React.FC = () => {
 };
 
 export default ScheduleComponent;
+
