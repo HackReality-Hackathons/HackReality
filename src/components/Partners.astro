@@ -1,17 +1,19 @@
 ---
 import { Image } from 'astro:assets';
 const partners = [
-  { 
-    name: '42 Málaga Fundación Telefónica', 
+  {
+    name: '42 Málaga Fundación Telefónica',
     logo: '/Sponsors/Untitled-1-02.png',
+    url: 'https://www.42malaga.com/', // Añade la URL correspondiente
     dimensions: {
       width: 300,
       height: 100
     }
   },
-  { 
-    name: 'Crossmint', 
+  {
+    name: 'Crossmint',
     logo: '/Sponsors/crosmint white.png',
+    url: 'https://www.crossmint.com/', // Añade la URL correspondiente
     dimensions: {
       width: 250,
       height: 100
@@ -26,7 +28,12 @@ const partners = [
     </h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 justify-items-center max-w-4xl mx-auto">
       {partners.map((partner) => (
-        <div class="w-full h-[150px] sm:h-[175px] md:h-[200px] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm rounded-lg border border-purple-500/40 hover:border-purple-500/80 transition-all hover:transform hover:scale-105">
+        <a 
+          href={partner.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="w-full h-[150px] sm:h-[175px] md:h-[200px] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm rounded-lg border border-purple-500/40 hover:border-purple-500/80 transition-all hover:transform hover:scale-105"
+        >
           <Image
             src={partner.logo}
             alt={partner.name}
@@ -34,9 +41,8 @@ const partners = [
             height={partner.dimensions.height}
             class="max-w-full max-h-full w-auto h-auto object-contain"
           />
-        </div>
+        </a>
       ))}
     </div>
   </div>
 </section>
-
