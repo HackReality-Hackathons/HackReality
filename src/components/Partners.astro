@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 const partners = [
-  {
+/*   {
     name: '42 Málaga Fundación Telefónica',
     logo: '/Sponsors/Untitled-1-02.png',
     url: 'https://www.42malaga.com/', // Añade la URL correspondiente
@@ -9,7 +9,7 @@ const partners = [
       width: 300,
       height: 100
     }
-  },
+  }, */
   {
     name: 'Crossmint',
     logo: '/Sponsors/crosmint white.png',
@@ -26,13 +26,13 @@ const partners = [
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-12 text-green-400">
       Sponsors
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 justify-items-center max-w-4xl mx-auto">
+    <div class="flex flex-wrap justify-center items-center gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto">
       {partners.map((partner) => (
         <a 
           href={partner.url}
           target="_blank"
           rel="noopener noreferrer"
-          class="w-full h-[150px] sm:h-[175px] md:h-[200px] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm rounded-lg border border-purple-500/40 hover:border-purple-500/80 transition-all hover:transform hover:scale-105"
+          class="w-full sm:w-auto h-[150px] sm:h-[175px] md:h-[200px] flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm rounded-lg border border-purple-500/40 hover:border-purple-500/80 transition-all hover:transform hover:scale-105"
         >
           <Image
             src={partner.logo}
@@ -46,3 +46,4 @@ const partners = [
     </div>
   </div>
 </section>
+
