@@ -1,0 +1,15 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import AuthGuard from '../components/AuthGuard';
+import NFTForm from '../components/Crossmint/page.astro';
+---
+
+<Layout title="NFT Minting">
+  <Navigation />
+  <AuthGuard client:load>
+    <NFTForm client:load />
+  </AuthGuard>
+  <Footer />
+</Layout>

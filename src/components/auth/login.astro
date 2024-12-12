@@ -1,0 +1,147 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from 'astro-icon/components';
+---
+
+<Layout title="Login - HackReality">
+  <main class="flex flex-col items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-b from-purple-900/50 to-black-900/50">
+    <div class="w-full max-w-md mx-auto bg-black/60 backdrop-blur-sm text-white border border-purple-500/40 rounded-xl shadow-lg p-8">
+      <div class="text-center space-y-4 mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold text-green-400">Welcome back!</h2>
+        <p class="text-purple-300 text-lg">Let's build something great</p>
+      </div>
+
+      <div class="space-y-4">
+        <button
+          id="githubLogin"
+          class="w-full flex items-center justify-center px-4 py-3 rounded-lg text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 transition-colors"
+        >
+          <Icon name="mdi:github" class="w-5 h-5 mr-2" />
+          Continue with GitHub
+        </button>
+
+        <button
+          id="googleLogin"
+          class="w-full flex items-center justify-center px-4 py-3 rounded-lg text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition-colors"
+        >
+          <Icon name="mdi:google" class="w-5 h-5 mr-2" />
+          Continue with Google
+        </button>
+      </div>
+      <div id="userInfo" class="hidden text-white mt-6">
+        <p id="userEmail" class="text-lg font-semibold mb-4"></p>
+        <button id="logoutButton" class="w-full px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors">Logout</button>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Cargar Firebase de manera dinámica
+  const loadFirebase = async () => {
+    const { auth } = await import('../../lib/firebase');
+    const { 
+      GoogleAuthProvider, 
+      GithubAuthProvider, 
+      signInWithPopup,
+      onAuthStateChanged,
+      signOut 
+    } = await import('firebase/auth');
+
+    return {
+      auth,
+      GoogleAuthProvider,
+      GithubAuthProvider,
+      signInWithPopup,
+      onAuthStateChanged,
+      signOut
+    };
+  };
+
+  const initAuth = async () => {
+    const {
+      auth,
+      GoogleAuthProvider,
+      GithubAuthProvider,
+      signInWithPopup,
+      onAuthStateChanged,
+      signOut
+    } = await loadFirebase();
+
+    const googleButton = document.getElementById('googleLogin');
+    const githubButton = document.getElementById('githubLogin');
+    const userInfo = document.getElementById('userInfo');
+    const userEmail = document.getElementById('userEmail');
+    const logoutButton = document.getElementById('logoutButton');
+    
+    if (!googleButton || !githubButton || !userInfo || !userEmail || !logoutButton) return;
+
+    const successMessage = document.createElement('p');
+    successMessage.className = 'text-green-400 mt-4';
+
+    // Proveedores de autenticación
+    const googleProvider = new GoogleAuthProvider();
+    const githubProvider = new GithubAuthProvider();
+
+    // Manejar el estado de autenticación
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        googleButton.classList.add('hidden');
+        githubButton.classList.add('hidden');
+        userInfo.classList.remove('hidden');
+        if (user.email) {
+          userEmail.textContent = user.email;
+        }
+
+        successMessage.textContent = "Autenticación exitosa, redirigiendo...";
+        userInfo.appendChild(successMessage);
+        setTimeout(() => {
+          window.location.href = '/users';
+        }, 3000);
+      } else {
+        googleButton.classList.remove('hidden');
+        githubButton.classList.remove('hidden');
+        userInfo.classList.add('hidden');
+        userEmail.textContent = '';
+        if (userInfo.contains(successMessage)) {
+          userInfo.removeChild(successMessage);
+        }
+      }
+    });
+
+    // Login con Google
+    googleButton.addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (error) {
+        console.error('Error al iniciar sesión con Google:', error);
+      }
+    });
+
+    // Login con GitHub
+    githubButton.addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, githubProvider);
+      } catch (error) {
+        console.error('Error al iniciar sesión con GitHub:', error);
+      }
+    });
+
+    // Logout
+    logoutButton.addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+      }
+    });
+  };
+
+  // Inicializar cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => initAuth());
+  } else {
+    initAuth();
+  }
+</script>
+
