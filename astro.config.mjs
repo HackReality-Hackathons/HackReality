@@ -12,21 +12,20 @@ export default defineConfig({
     react(),
     icon({
       include: {
-        mdi: ["*"]
+        mdi: ["*"] // Esto incluye todos los iconos de MDI
       }
     })
   ],
   vite: {
     define: {
-      'process.env.FIREBASE_API_KEY': `"${process.env.PUBLIC_FIREBASE_API_KEY}"`,
-      'process.env.PUBLIC_CROSSMINT_PROJECT_ID': `"${process.env.PUBLIC_CROSSMINT_PROJECT_ID}"`,
-      'process.env.PUBLIC_CROSSMINT_API_KEY': `"${process.env.PUBLIC_CROSSMINT_API_KEY}"`,
-      'process.env.MODE': `"${process.env.MODE}"`,
+      'import.meta.env.FIREBASE_API_KEY': JSON.stringify(process.env.PUBLIC_FIREBASE_API_KEY),
+      'import.meta.env.PUBLIC_CROSSMINT_PROJECT_ID': JSON.stringify(process.env.PUBLIC_CROSSMINT_PROJECT_ID),
+      'import.meta.env.PUBLIC_CROSSMINT_API_KEY': JSON.stringify(process.env.PUBLIC_CROSSMINT_API_KEY),
+      'import.meta.env.MODE': JSON.stringify(process.env.MODE),
     },
     optimizeDeps: {
       include: ['firebase/app', 'firebase/auth']
     },
-    // Asegurarse de que las variables de entorno están disponibles
     envPrefix: ['PUBLIC_', 'VITE_']
   }
 });
