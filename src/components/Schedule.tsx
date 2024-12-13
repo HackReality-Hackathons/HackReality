@@ -16,22 +16,22 @@ interface ScheduleData {
 
 const schedule: ScheduleData = {
   'Viernes': [
-    { time: '16:00', endTime: '18:00', event: 'Registro y Formación de Equipos', status: 'in-progress', type: 'registration', url: 'https://hackreality-spatial-computing.devpost.com/' },
-    { time: '18:00', endTime: '19:00', event: 'Ceremonia de apertura', status: 'upcoming', type: 'event' },
-    { time: '19:00', endTime: '20:00', event: 'Formación de equipos', status: 'upcoming', type: 'event' },
-    { time: '20:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
+    { time: '12:00', endTime: '17:00', event: 'Registro y Formación de Equipos', status: 'in-progress', type: 'registration', url: 'https://hackreality-spatial-computing.devpost.com/' },
+    { time: '17:00', endTime: '18:00', event: 'Ceremonia de apertura', status: 'upcoming', type: 'event' },
+    { time: '18:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
   ],
   'Sábado': [
     { time: '00:00', endTime: '23:59', event: 'Hacking', status: 'upcoming', type: 'event' },
-    { time: '10:00', endTime: '11:00', event: 'Workshop: Intro a Spatial Computing', status: 'upcoming', type: 'workshop' },
-    { time: '15:00', endTime: '16:00', event: 'Workshop: IA en Realidad Aumentada', status: 'upcoming', type: 'workshop' },
-    { time: '20:00', endTime: '21:00', event: 'Cena networking', status: 'upcoming', type: 'break' },
+    { time: '09:30', endTime: '10:00', event: 'Desayuno', status: 'upcoming', type: 'break' },
+    { time: '12:00', endTime: '13:00', event: 'Workshop: Usando Figma para el Hackathon', status: 'upcoming', type: 'workshop', url: '' },
+    { time: '14:30', endTime: '15:30', event: 'Comida', status: 'upcoming', type: 'break' },
+    { time: '17:00', endTime: '17:30', event: 'Sesion Grupal de Mentoring', status: 'upcoming', type: 'talk', url: '' },
   ],
   'Domingo': [
     { time: '00:00', endTime: '12:00', event: 'Hacking', status: 'upcoming', type: 'event' },
-    { time: '12:00', endTime: '14:00', event: 'Presentaciones de proyectos', status: 'upcoming', type: 'talk' },
-    { time: '14:00', endTime: '15:00', event: 'Deliberación del jurado', status: 'upcoming', type: 'event' },
-    { time: '15:00', endTime: '16:00', event: 'Ceremonia de clausura y premios', status: 'upcoming', type: 'event' },
+    { time: '12:00', endTime: '14:00', event: 'Presentaciones de proyectos', status: 'upcoming', type: 'talk', url: '' },
+    { time: '14:00', endTime: '15:00', event: 'Deliberación del jurado', status: 'upcoming', type: 'break', url: '' },
+    { time: '15:00', endTime: '16:00', event: 'Ceremonia de clausura y premios', status: 'upcoming', type: 'event', url: '' },
   ],
 };
 
